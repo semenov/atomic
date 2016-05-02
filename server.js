@@ -5,6 +5,8 @@ import middleware from './middleware';
 import getPost from './actions/getPost';
 import listPosts from './actions/listPosts';
 import fail from './actions/fail';
+import dashboard from './actions/dashboard';
+import temperatureApi from './services/temperatureApi';
 
 const server = connect();
 
@@ -12,7 +14,8 @@ server.use(bodyParser.json())
 
 const app = middleware({
   context: {
-    appName: 'demo'
+    appName: 'demo',
+    temperatureApi: temperatureApi('http://example.com/temperature')
   },
   routes: [
     {
@@ -32,6 +35,12 @@ const app = middleware({
       path: '/fail',
       method: 'get',
       handler: fail
+    },
+    {
+      name: 'dashboard',
+      path: '/dashboard',
+      method: 'get',
+      handler: dashboard
     }
   ]
 });
